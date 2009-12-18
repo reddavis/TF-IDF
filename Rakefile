@@ -5,12 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "tf_idf"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{A TF-IDF in ruby - http://en.wikipedia.org/wiki/Tf–idf}
+    gem.description = %Q{A TF-IDF in ruby - http://en.wikipedia.org/wiki/Tf–idf}
     gem.email = "reddavis@gmail.com"
-    gem.homepage = "http://github.com/reddavis/tf_idf"
+    gem.homepage = "http://github.com/reddavis/TF-IDF"
     gem.authors = ["reddavis"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_dependency('n_gram', ">= 0.0.0")
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
