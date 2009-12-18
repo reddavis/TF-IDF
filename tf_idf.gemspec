@@ -26,7 +26,8 @@ Gem::Specification.new do |s|
      "lib/tf_idf.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
-     "spec/tf_idf_spec.rb"
+     "spec/tf_idf_spec.rb",
+     "tf_idf.gemspec"
   ]
   s.homepage = %q{http://github.com/reddavis/TF-IDF}
   s.rdoc_options = ["--charset=UTF-8"]
