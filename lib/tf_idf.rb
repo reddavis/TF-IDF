@@ -59,22 +59,23 @@ class TfIdf
   # It is then normalized (as some documents are longer than others)
   def calculate_term_frequencies
     original_ngrams = n_gram.ngrams_of_inputs.clone
-        
+            
     original_ngrams.each_with_index do |document, index|
       
       # Calculate the total number of terms
       total_terms = 0.0
       document[@n].each_value {|v| total_terms += v} 
-      
+            
       document[@n].each_pair do |key, value|
         original_ngrams[index][@n][key] = (value.to_f / total_terms)
       end
     end
-        
-    original_ngrams.map {|x| x.map {|y| y[@n] }}.flatten
+    
+    original_ngrams.map {|x| x.map {|y| y[1] }}.flatten
   end
   
   def n_gram
     @n_gram ||= NGram.new(@data, :n => @n)
-  end  
+  end
+  
 end
