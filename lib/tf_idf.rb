@@ -3,9 +3,8 @@ require 'n_gram'
 class TfIdf
   
   # n the n-grams of the data http://en.wikipedia.org/wiki/N-gram
-  def initialize(data, n=1)
+  def initialize(data)
     @data = data
-    @n = n
   end
   
   def tf
@@ -28,54 +27,62 @@ class TfIdf
     
     tf_idf
   end
+    
+  private
   
   def total_documents
     @data.size.to_f
   end
   
-  private
+  # Returns all terms, once
+  def terms
+    @data.flatten.uniq
+  end
   
   # IDF = total_documents / number_of_document_term_appears_in
   # This calculates how important a term is.
   def calculate_inverse_document_frequency
-    original_ngrams = n_gram.ngrams_of_all_data[@n].clone
+    results = {}
     
-    original_ngrams.each_key do |term|
-      
-      # Calculate how many documents the term appears in
+    terms.each do |term|
       count = 0.0
-      n_gram.ngrams_of_inputs.each do |document|
-        count += 1 if document[@n].key?(term)
+      
+      @data.each do |document|
+        count += 1 if document.include?(term)
       end
-    
-      original_ngrams[term] = Math.log10(total_documents / count)
+      
+      results[term] = Math.log10(total_documents / count)
     end
     
-    original_ngrams
+    results
   end
   
   # TF = number_of_n_term_in_document / number_of_terms_in_document
   # Calculates the number of times a term appears in the document
   # It is then normalized (as some documents are longer than others)
   def calculate_term_frequencies
-    original_ngrams = n_gram.ngrams_of_inputs.clone
-            
-    original_ngrams.each_with_index do |document, index|
+    results = []
+    
+    @data.each do |document|
+      document_result = {}
       
-      # Calculate the total number of terms
-      total_terms = 0.0
-      document[@n].each_value {|v| total_terms += v} 
-            
-      document[@n].each_pair do |key, value|
-        original_ngrams[index][@n][key] = (value.to_f / total_terms)
+      document.each do |term|
+        if document_result.key?(term)
+          document_result[term] += 1.0
+        else
+          document_result[term] = 1.0
+        end
       end
+      
+      # Normalize the count
+      document_result.each_key do |term|
+        document_result[term] /= document.size
+      end
+      
+      results << document_result
     end
     
-    original_ngrams.map {|x| x.map {|y| y[1] }}.flatten
+    results
   end
-  
-  def n_gram
-    @n_gram ||= NGram.new(@data, :n => @n)
-  end
-  
+    
 end

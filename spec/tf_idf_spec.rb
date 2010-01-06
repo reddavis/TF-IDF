@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe "TfIdf" do
   describe "Term Frequency" do
     before do
-      @a = TfIdf.new(data, 1)
+      @a = TfIdf.new(data)
     end
     
     it "should return 0.2" do
@@ -13,16 +13,16 @@ describe "TfIdf" do
   
   describe "Inverse Document Frequency" do
     before do
-      @a = TfIdf.new(data, 1)
+      @a = TfIdf.new(data)
     end
     
     it "should return 0.3010" do
       @a.idf['b'].to_s.should match(/0.30102999/)
     end
   end
-  
+    
   before do
-    @a = TfIdf.new(data, 1)
+    @a = TfIdf.new(data)
   end
   
   it "should return 0.0602" do
@@ -32,6 +32,6 @@ describe "TfIdf" do
   private
   
   def data
-    ['a a a a a a a a b b', 'a a']
+    [%w{a a a a a a a a b b}, %w{a a}]
   end
 end
