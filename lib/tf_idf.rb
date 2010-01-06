@@ -1,5 +1,3 @@
-require 'n_gram'
-
 class TfIdf
   
   # n the n-grams of the data http://en.wikipedia.org/wiki/N-gram

@@ -11,10 +11,9 @@ http://en.wikipedia.org/wiki/Tf–idf
   require 'rubygems'
   require 'tf_idf'
   
-  data = ['a a a a a a a a b b', 'a a']
+  data = [%w{a a a a a a a a b b}, %w{a a}]
   
-  # 1 is the ngram setter => http://en.wikipedia.org/wiki/N-gram
-  a = TfIdf.new(data, 1)
+  a = TfIdf.new(data)
   
   # To find the term frequencies
   a.tf
