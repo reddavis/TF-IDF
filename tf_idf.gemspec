@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{tf_idf}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["reddavis"]
-  s.date = %q{2009-12-21}
+  s.date = %q{2010-01-06}
   s.description = %q{A TF-IDF in ruby - http://en.wikipedia.org/wiki/Tf–idf}
   s.email = %q{reddavis@gmail.com}
   s.extra_rdoc_files = [
