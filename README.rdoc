@@ -4,7 +4,7 @@ http://en.wikipedia.org/wiki/Tf–idf
 
 == Install
 
-  gem sources -a http://gems.github.com
+  gem sources -a http://gemcutter.org
   sudo gem install tf_idf
 
 == How To Use
