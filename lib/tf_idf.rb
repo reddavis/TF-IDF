@@ -40,19 +40,19 @@ class TfIdf
   # IDF = total_documents / number_of_document_term_appears_in
   # This calculates how important a term is.
   def calculate_inverse_document_frequency
-    results = {}
-    
-    terms.each do |term|
-      count = 0.0
-      
-      @data.each do |document|
-        count += 1 if document.include?(term)
-      end
-      
-      results[term] = Math.log10(total_documents / count)
+    results = Hash.new {|h, k| h[k] = 0 }
+
+    @data.map(&:uniq).flatten.each do |term|
+      results[term] += 1
     end
-    
-    results
+
+    log_total_count = Math.log10(total_documents)
+    results.each_pair do |term, count|
+      results[term] = log_total_count - Math.log10(count)
+    end
+
+    results.default = nil
+    return results
   end
   
   # TF = number_of_n_term_in_document / number_of_terms_in_document
