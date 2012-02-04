@@ -1,7 +1,6 @@
 class TfIdf
-  
-  # n the n-grams of the data http://en.wikipedia.org/wiki/N-gram
-  def initialize(data)
+  def initialize(data, sparse=false)
+    @sparse = sparse
     @data = data
   end
   
@@ -15,7 +14,7 @@ class TfIdf
   
   # This is basically calculated by multiplying tf by idf
   def tf_idf
-    tf_idf = tf.clone
+    tf_idf = tf.map(&:clone)
     
     tf.each_with_index do |document, index|
       document.each_pair do |term, tf_score|
@@ -34,7 +33,7 @@ class TfIdf
   
   # Returns all terms, once
   def terms
-    @data.flatten.uniq
+    @sparse ? @data.map(&:keys).flatten : @data.map(&:uniq).flatten
   end
   
   # IDF = total_documents / number_of_document_term_appears_in
@@ -42,7 +41,7 @@ class TfIdf
   def calculate_inverse_document_frequency
     results = Hash.new {|h, k| h[k] = 0 }
 
-    @data.map(&:uniq).flatten.each do |term|
+    terms.each do |term|
       results[term] += 1
     end
 
@@ -52,7 +51,7 @@ class TfIdf
     end
 
     results.default = nil
-    return results
+    results
   end
   
   # TF = number_of_n_term_in_document / number_of_terms_in_document
@@ -62,19 +61,19 @@ class TfIdf
     results = []
     
     @data.each do |document|
-      document_result = {}
-      
-      document.each do |term|
-        if document_result.key?(term)
-          document_result[term] += 1.0
-        else
-          document_result[term] = 1.0
+      document_result = Hash.new {|h, k| h[k] = 0 }
+      document_size = @sparse ? document.values.inject(&:+).to_f : document.size.to_f
+
+      if @sparse
+        document_result = document
+      else
+        document.each do |term|
+          document_result[term] += 1
         end
       end
-      
       # Normalize the count
       document_result.each_key do |term|
-        document_result[term] /= document.size
+        document_result[term] /= document_size
       end
       
       results << document_result
@@ -82,5 +81,4 @@ class TfIdf
     
     results
   end
-    
 end
